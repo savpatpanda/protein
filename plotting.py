@@ -11,21 +11,27 @@ def getXYZ(atomlist):
 		z.append(i[2])
 	return x, y, z
 
+def extractCoord(pdbFile, alpha = False):
+	pdb = open(pdbFile)
+	listOfAtoms = []
+
+	for line in pdb:
+		elements = line.split()
+		if elements[0] == "ATOM":
+			if alpha and elements[2] != "CA":
+				continue
+			coordinate = (float(elements[6]), float(elements[7]), float(elements[8]))
+			listOfAtoms.append(coordinate)
+
+	return listOfAtoms
+
 #init
-pdb = open('4pcw.pdb')
 
-#core
-listOfAtoms = []
-
-for line in pdb:
-	elements = line.split()
-	if elements[0] == "ATOM":
-		coordinate = (float(elements[6]), float(elements[7]), float(elements[8]))
-		listOfAtoms.append(coordinate)
-
-x, y, z = getXYZ(listOfAtoms)
+coords = extractCoord("4pcw.pdb", alpha = True)
+x, y, z = getXYZ(coords)
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x,y,zs=z, s= 15)
+#ax.scatter(x,y,zs=z, s= 15)
+ax.plot(x, y, zs = z)
 plt.show()
