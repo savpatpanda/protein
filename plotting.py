@@ -1,6 +1,14 @@
 #imports
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+from enum import Enum
+
+#constants
+class AtomType(Enum):
+	C = (5, "gray")
+	O = (5, "red")
+	N = (5, "blue")
 
 #functions
 def getXYZ(atomlist):
@@ -25,6 +33,15 @@ def extractCoord(pdbFile, alpha = False):
 
 	return listOfAtoms
 
+def plotSpheres(atomList, axesObject, radius = 2):
+	for i in atomList:
+		u, v = np.mgrid[0:2*np.pi:20j, 0:np.pi:20j]
+		x = radius*np.cos(u)*np.sin(v) + i[0]
+		y = radius*np.sin(u)*np.sin(v) + i[1]
+		z = radius*np.cos(v) + i[2]
+		ax.plot_surface(x, y, z, color="grey")
+
+
 #init
 
 coords = extractCoord("4pcw.pdb", alpha = True)
@@ -33,5 +50,6 @@ x, y, z = getXYZ(coords)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 #ax.scatter(x,y,zs=z, s= 15)
-ax.plot(x, y, zs = z)
+#ax.plot(x, y, zs = z)
+plotSpheres(coords, ax)
 plt.show()
