@@ -1,15 +1,15 @@
 #imports
 import numpy as np
 from enum import Enum
-
-#inputs
-pdbFile = "4pcw.pdb"
+import collections
 
 #constants
 class AtomType(Enum):
 	C = (5, "gray")
 	O = (5, "red")
 	N = (5, "blue")
+
+Rotation = collections.namedtuple('Rotation', ['x','y','z'])
 
 #functions
 def normalize(listOfAtoms):
@@ -52,8 +52,12 @@ def rotate(coords, matrix):
 	return setOfCoords
 
 #init
+def rotateFile(fileName:str, rotation:Rotation):
+	coords = extractCoord(fileName, alpha = True)
+	rotateMatrix = rotationMatrix(rotation.z, rotation.y, rotation.x)
+	resulting = rotate(coords,rotateMatrix)
+	print(resulting)
 
-coords = extractCoord("4pcw.pdb", alpha = True)
-rotateMatrix = rotationMatrix(30, 0, 0)
-resulting = rotate(coords,rotateMatrix)
-print(resulting)
+if __name__ == '__main__':
+	pass
+	#rotateFile("4pcw.pdb", Rotation(x = 0, y = 0, z = 30))

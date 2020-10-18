@@ -43,13 +43,16 @@ def plotSpheres(atomList, axesObject, radius = 2):
 
 
 #init
+def pltFile(fileName:str):
+	coords = extractCoord(fileName, alpha = True)
+	x, y, z = getXYZ(coords)
 
-coords = extractCoord("4pcw.pdb", alpha = True)
-x, y, z = getXYZ(coords)
+	fig = plt.figure()
+	ax = fig.add_subplot(111, projection='3d')
+	#ax.scatter(x,y,zs=z, s= 15)
+	#ax.plot(x, y, zs = z)
+	plotSpheres(coords, ax)
+	plt.show()
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-#ax.scatter(x,y,zs=z, s= 15)
-#ax.plot(x, y, zs = z)
-plotSpheres(coords, ax)
-plt.show()
+if __name__ == '__main__':
+	pltFile("./data/4pcw.pdb")
