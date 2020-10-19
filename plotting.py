@@ -39,7 +39,7 @@ def plotSpheres(atomList, axesObject, radius = 2):
 		x = radius*np.cos(u)*np.sin(v) + i[0]
 		y = radius*np.sin(u)*np.sin(v) + i[1]
 		z = radius*np.cos(v) + i[2]
-		ax.plot_surface(x, y, z, color="grey")
+		axesObject.plot_surface(x, y, z, color="grey")
 
 
 #init
